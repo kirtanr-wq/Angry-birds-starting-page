@@ -1,0 +1,548 @@
+/* ========================================
+   RESET
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ========================================
+   INTRO SECTION
+======================================== */
+
+.intro-section {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background-image: url("assets/background.png");
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+
+/* ========================================
+   SHIP WRAPPER
+======================================== */
+
+.ship-wrapper {
+    position: absolute;
+
+    top: -45px;
+    left: 50%;
+
+    width: clamp(350px, 32vw, 560px);
+
+    z-index: 10;
+
+    transform:
+        translate3d(-100vw, 0, 0)
+        translateX(-50%);
+
+    will-change: transform;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    animation:
+        shipEnter
+        7.5s
+        cubic-bezier(0.35, 0, 0.25, 1)
+        forwards;
+}
+
+
+/* ========================================
+   ACTUAL SHIP
+======================================== */
+
+.pig-ship {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    pointer-events: none;
+    user-select: none;
+
+    transform-origin: center center;
+
+    will-change: transform;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    animation:
+        shipBob
+        1.8s
+        ease-in-out
+        infinite;
+}
+
+
+/* ========================================
+   SHIP BOBBING
+======================================== */
+
+@keyframes shipBob {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, -15px, 0)
+            rotate(-0.8deg);
+    }
+
+    50% {
+        transform:
+            translate3d(0, 15px, 0)
+            rotate(0.8deg);
+    }
+}
+
+
+/* ========================================
+   SHIP INITIAL JOURNEY
+
+   LEFT → RIGHT → PAUSE → CENTER
+======================================== */
+
+@keyframes shipEnter {
+
+    0% {
+        transform:
+            translate3d(-100vw, 0, 0)
+            translateX(-50%);
+    }
+
+    65% {
+        transform:
+            translate3d(22vw, 0, 0)
+            translateX(-50%);
+    }
+
+    /* pause on right */
+
+    71% {
+        transform:
+            translate3d(22vw, 0, 0)
+            translateX(-50%);
+    }
+
+    /* return to center */
+
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            translateX(-50%);
+    }
+}
+
+
+/* ========================================
+   SHIP HOVERING AT CENTER
+======================================== */
+
+.ship-wrapper.hovering {
+    left: 50%;
+
+    transform:
+        translate3d(0, 0, 0)
+        translateX(-50%);
+
+    animation: none;
+}
+
+
+
+/* ========================================
+   NEST CONTAINER
+======================================== */
+
+.nest-container {
+    position: absolute;
+
+    left: 50%;
+    bottom: 1%;
+
+    transform:
+        translateX(-50%)
+        scale(0.72);
+
+    width: clamp(300px, 27vw, 480px);
+    height: 240px;
+
+    z-index: 5;
+}
+
+
+/* ========================================
+   NEST BACK
+======================================== */
+
+.nest-back {
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    transform: translateX(-50%);
+
+    width: 100%;
+    height: auto;
+
+    z-index: 1;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* ========================================
+   EGGS CONTAINER
+
+   IMPORTANT:
+   The entire group moves as ONE layer.
+======================================== */
+
+.eggs {
+    position: absolute;
+
+    left: 50%;
+    bottom: 42px;
+
+    width: 310px;
+    height: 200px;
+
+    transform:
+        translate3d(-50%, 0, 0);
+
+    transform-origin: center center;
+
+    z-index: 2;
+
+    will-change: transform, opacity;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+
+/* ========================================
+   INDIVIDUAL EGGS
+======================================== */
+
+.egg {
+    position: absolute;
+
+    width: 155px;
+    height: auto;
+
+    pointer-events: none;
+    user-select: none;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+
+/* ========================================
+   LEFT EGG
+======================================== */
+
+.egg-left {
+    left: 0;
+    bottom: 30px;
+
+    transform: rotate(-12deg);
+}
+
+
+/* ========================================
+   CENTER EGG
+======================================== */
+
+.egg-center {
+    left: 50%;
+    bottom: 35px;
+
+    transform:
+        translateX(-50%)
+        scale(1.08);
+
+    z-index: 2;
+}
+
+
+/* ========================================
+   RIGHT EGG
+======================================== */
+
+.egg-right {
+    right: 0;
+    bottom: 30px;
+
+    transform: rotate(12deg);
+}
+
+
+/* ========================================
+   NEST FRONT
+======================================== */
+
+.nest-front {
+    position: absolute;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform: translateX(-50%);
+
+    width: 106%;
+    height: auto;
+
+    z-index: 3;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* ========================================
+   EGG WOBBLE
+======================================== */
+
+.eggs.reacting .egg-left {
+    animation:
+        eggWobbleLeft
+        1.05s
+        ease-in-out
+        forwards;
+}
+
+
+.eggs.reacting .egg-center {
+    animation:
+        eggWobbleCenter
+        1.05s
+        ease-in-out
+        forwards;
+}
+
+
+.eggs.reacting .egg-right {
+    animation:
+        eggWobbleRight
+        1.05s
+        ease-in-out
+        forwards;
+}
+
+
+/* ========================================
+   LEFT EGG WOBBLE
+======================================== */
+
+@keyframes eggWobbleLeft {
+
+    0% {
+        transform: rotate(-12deg);
+    }
+
+    25% {
+        transform:
+            translate3d(0, -5px, 0)
+            rotate(-18deg);
+    }
+
+    50% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(-6deg);
+    }
+
+    75% {
+        transform:
+            translate3d(0, -7px, 0)
+            rotate(-16deg);
+    }
+
+    100% {
+        transform: rotate(-12deg);
+    }
+}
+
+
+/* ========================================
+   CENTER EGG WOBBLE
+======================================== */
+
+@keyframes eggWobbleCenter {
+
+    0% {
+        transform:
+            translateX(-50%)
+            scale(1.08)
+            rotate(0deg);
+    }
+
+    25% {
+        transform:
+            translate3d(-50%, -5px, 0)
+            scale(1.08)
+            rotate(6deg);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            scale(1.08)
+            rotate(-6deg);
+    }
+
+    75% {
+        transform:
+            translate3d(-50%, -7px, 0)
+            scale(1.08)
+            rotate(4deg);
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            scale(1.08)
+            rotate(0deg);
+    }
+}
+
+
+/* ========================================
+   RIGHT EGG WOBBLE
+======================================== */
+
+@keyframes eggWobbleRight {
+
+    0% {
+        transform: rotate(12deg);
+    }
+
+    25% {
+        transform:
+            translate3d(0, -5px, 0)
+            rotate(18deg);
+    }
+
+    50% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(6deg);
+    }
+
+    75% {
+        transform:
+            translate3d(0, -7px, 0)
+            rotate(16deg);
+    }
+
+    100% {
+        transform: rotate(12deg);
+    }
+}
+
+
+/* ========================================
+   ULTRA-SMOOTH EGG STEAL
+
+   Instead of moving all three eggs
+   separately, move the ENTIRE container.
+
+   This is much lighter for the browser.
+======================================== */
+
+.eggs.stealing {
+    animation:
+        eggsToShip
+        1.3s
+        cubic-bezier(0.33, 1, 0.68, 1)
+        forwards;
+}
+
+
+/* ========================================
+   EGGS → SHIP
+======================================== */
+
+@keyframes eggsToShip {
+
+    0% {
+        transform:
+            translate3d(-50%, 0, 0)
+            scale(1);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate3d(-50%, -500px, 0)
+            scale(0.48);
+
+        opacity: 0;
+    }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+
+    .ship-wrapper {
+        width: 420px;
+        top: -15px;
+    }
+
+
+    .nest-container {
+        width: 340px;
+
+        bottom: 1%;
+
+        transform:
+            translateX(-50%)
+            scale(0.68);
+    }
+
+
+    .eggs {
+        /*
+           Do NOT scale .eggs here anymore.
+
+           Scaling the container here would
+           interfere with eggsToShip.
+
+           The nest itself is already scaled
+           for mobile.
+        */
+        width: 310px;
+    }
+}
